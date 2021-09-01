@@ -1,17 +1,15 @@
 import pygame
 from pygame import constants
 
-from package.constants import Constants
+from package.constants import size, title
 from package.grid import Grid
 
 
 
-const = Constants()
-
 #setup
 
-win = pygame.display.set_mode((const.size, const.size))
-pygame.display.set_caption(const.title)
+win = pygame.display.set_mode((size, size))
+pygame.display.set_caption(title)
 
 def gameloop():
 	game_not_over = True
