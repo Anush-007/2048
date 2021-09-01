@@ -4,7 +4,7 @@
 from random import randint, choice, choices
 
 from pygame import K_LEFT, K_RIGHT, K_UP, K_DOWN
-from .constants import Constants
+from .constants import choices, probabilites, index
 
 
 
@@ -19,7 +19,7 @@ class Grid:
 
 
 	def __init__(self):
-		maxIndex = Constants().index - 1
+		maxIndex = index - 1
 		self.grid[randint(0, maxIndex)][randint(0, maxIndex)] = 1
 
 		self.actions = {
@@ -49,13 +49,13 @@ class Grid:
 					j = i
 					i -= 1
 			row = [i for i in row if i != 0] # removing all zeros
-			zeros = [0] * (Constants().index - len(row)) # adding zeros to make the list of proper size
+			zeros = [0] * (index - len(row)) # adding zeros to make the list of proper size
 			row = zeros + row
 			self.grid[index] = row
 			if row[0] == 0:
 				possibleIndices.append(index)
 		if len(possibleIndices) > 0:
-			self.grid[choice(possibleIndices)][0] = choices(Constants().choices, Constants().probabilites)[0]
+			self.grid[choice(possibleIndices)][0] = choices(choices, probabilites)[0]
 
 	def left(self):
 		possibleIndices = [] # indices where we can spwan new number
@@ -75,17 +75,17 @@ class Grid:
 					i = j
 					j += 1
 			row = [i for i in row if i != 0] # removing all zeros
-			zeros = [0] * (Constants().index - len(row)) # adding zeros to make the list of proper size
+			zeros = [0] * (index - len(row)) # adding zeros to make the list of proper size
 			row += zeros
 			if row[-1] == 0:
 				possibleIndices.append(index)
 			self.grid[index] = row
 		if len(possibleIndices) > 0:
-			self.grid[choice(possibleIndices)][-1] = choices(Constants().choices, Constants().probabilites)[0]
+			self.grid[choice(possibleIndices)][-1] = choices(choices, probabilites)[0]
 
 	def down(self):
-		for i in range(Constants().index):
-			k = Constants().index - 1
+		for i in range(index):
+			k = index - 1
 			j = k - 1
 			while (j >= 0):
 				if self.grid[j][i] == self.grid[k][i]:
@@ -98,18 +98,18 @@ class Grid:
 				else :
 					k = j
 					j -= 1
-			col = [self.grid[t][i] for t in range(Constants().index) if self.grid[t][i] != 0]
-			col = ([0] * (Constants().index - len(col))) + col
+			col = [self.grid[t][i] for t in range(index) if self.grid[t][i] != 0]
+			col = ([0] * (index - len(col))) + col
 			for ind, item in enumerate(col):
 				self.grid[ind][i] = item
-		possibleInices = [i for i in range(Constants().index) if self.grid[0][i] == 0]
+		possibleInices = [i for i in range(index) if self.grid[0][i] == 0]
 		if (len(possibleInices) > 0):
-			self.grid[0][choice(possibleInices)] = choices(Constants().choices, Constants().probabilites)[0]
+			self.grid[0][choice(possibleInices)] = choices(choices, probabilites)[0]
 
 	def up(self):
-		for i in range(Constants().index):
+		for i in range(index):
 			j , k = 0, 1
-			while k < Constants().index:
+			while k < index:
 				if self.grid[j][i] == self.grid[k][i]:
 					self.grid[j][i] *= 2
 					self.grid[k][i] = 0
@@ -120,13 +120,13 @@ class Grid:
 				else :
 					j = k
 					k += 1
-			col = [self.grid[t][i] for t in range(Constants().index) if self.grid[t][i] != 0]
-			col = col + ([0] * (Constants().index - len(col)))
+			col = [self.grid[t][i] for t in range(index) if self.grid[t][i] != 0]
+			col = col + ([0] * (index - len(col)))
 			for ind, item in enumerate(col):
 				self.grid[ind][i] = item
-		possibleInices = [i for i in range(Constants().index) if self.grid[-1][i] == 0]
+		possibleInices = [i for i in range(index) if self.grid[-1][i] == 0]
 		if (len(possibleInices) > 0):
-			self.grid[-1][choice(possibleInices)] = choices(Constants().choices, Constants().probabilites)[0]
+			self.grid[-1][choice(possibleInices)] = choices(choices, probabilites)[0]
 
 	def move(self, key):
 		self.actions.get(key)()
